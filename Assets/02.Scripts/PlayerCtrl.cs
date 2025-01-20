@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class PlayerCtrl : MonoBehaviour
 {
-    void Awake()
-    {
-    }
-
+    private Transform tr;
     void Start()
     {
+        tr = GetComponent<Transform>();
     }
 
     void Update()
     {
-        
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        Debug.Log("h=" + h);
+        Debug.Log("v=" + v);   
+
+        // Transform / position 
+        //transform.position += new Vector3(0, 0, 1);     
+
+        //정규화vector
+        tr.position += Vector3.forward * 1;
     }
 }

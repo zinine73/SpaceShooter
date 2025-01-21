@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerCtrl : MonoBehaviour
 {
-    private Transform tr;
+    [SerializeField] private Transform tr;
+    // 이동속도 변수
+    public float moveSpeed = 10.0f;
+
     void Start()
     {
         tr = GetComponent<Transform>();
@@ -22,6 +25,8 @@ public class PlayerCtrl : MonoBehaviour
         //transform.position += new Vector3(0, 0, 1);     
 
         //정규화vector
-        tr.position += Vector3.forward * 1;
+        //tr.position += Vector3.forward * 1;
+
+        tr.Translate(Vector3.forward * Time.deltaTime * v * moveSpeed);
     }
 }

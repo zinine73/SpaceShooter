@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PlayerCtrl : MonoBehaviour
 {
-    [SerializeField] private Transform tr;
+    private Transform tr;
     // 이동속도 변수
     public float moveSpeed = 10.0f;
+    // 회전속도 변수
+    public float turnSpeed = 80.0f;
 
     void Start()
     {
@@ -17,9 +19,10 @@ public class PlayerCtrl : MonoBehaviour
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
+        float r = Input.GetAxis("Mouse X");
 
-        Debug.Log("h=" + h);
-        Debug.Log("v=" + v);   
+        //Debug.Log("h=" + h);
+        //Debug.Log("v=" + v);   
 
         // Transform / position 
         //transform.position += new Vector3(0, 0, 1);     
@@ -27,6 +30,10 @@ public class PlayerCtrl : MonoBehaviour
         //정규화vector
         //tr.position += Vector3.forward * 1;
 
-        tr.Translate(Vector3.forward * Time.deltaTime * v * moveSpeed);
+        Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
+
+        tr.Translate(moveDir.normalized * Time.deltaTime * moveSpeed);
+
+        tr.Rotate(Vector3.up * turnSpeed * Time.deltaTime * r);
     }
 }

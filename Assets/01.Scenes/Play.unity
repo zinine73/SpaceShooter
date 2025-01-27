@@ -526,8 +526,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tragetTr: {fileID: 140657965}
-  distance: 10
-  height: 2
+  distance: 4.2
+  height: 2.4
+  damping: 0.1
+  targetOffset: 2
 --- !u!1001 &999915560
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,6 +5,11 @@ using UnityEngine.AI;
 
 public class MonsterCtrl : MonoBehaviour
 {
+    // 해시값 추출
+    private readonly int hashTrace = Animator.StringToHash("IsTrace");
+    private readonly int hashAttack = Animator.StringToHash("IsAttack");
+    private readonly int hashHit = Animator.StringToHash("Hit");
+
     public const float TIMER_CHECK = 0.3f;
     public enum State
     {
@@ -81,19 +86,32 @@ public class MonsterCtrl : MonoBehaviour
             {
                 case State.IDLE:
                     agent.isStopped = true;
-                    animator.SetBool("IsTrace", false);
+                    animator.SetBool(hashTrace, false);
                     break;
                 case State.TRACE:
                     agent.SetDestination(playerTr.position);
                     agent.isStopped = false;
-                    animator.SetBool("IsTrace", true);
+                    animator.SetBool(hashTrace, true);
+                    animator.SetBool(hashAttack, false);
                     break;
                 case State.ATTACK:
+                    animator.SetBool(hashAttack, true);
                     break;
                 case State.DIE:
                     break;
             }
             yield return new WaitForSeconds(TIMER_CHECK);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("BULLET"))
+        {
+            // 충돌한 총알 삭제
+            Destroy(collision.gameObject);
+            // 피격 애니메이션 실행
+            animator.SetTrigger(hashHit);
         }
     }
 }

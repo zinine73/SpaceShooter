@@ -6,13 +6,16 @@ public class PlayerCtrl : MonoBehaviour
 {
     private Transform tr;
     private Animation anim;
-    // 이동속도 변수
-    public float moveSpeed = 10.0f;
-    // 회전속도 변수
-    public float turnSpeed = 80.0f;
+    private readonly float initHp = 100.0f; // 초기 생명값
+    private const float DAMAGE_HP = 10.0f;
+
+    public float currHp; // 현재 생명값
+    public float moveSpeed = 10.0f; // 이동속도 변수
+    public float turnSpeed = 80.0f; // 회전속도 변수
 
     IEnumerator Start()
     {
+        currHp = initHp;
         tr = GetComponent<Transform>();
         anim = GetComponent<Animation>();
 
@@ -71,5 +74,24 @@ public class PlayerCtrl : MonoBehaviour
         {
             anim.CrossFade("Idle", 0.25f);
         }
+    }
+
+    private void OnTriggerEnter(Collider coll)
+    {
+        if (currHp >= 0.0f && coll.CompareTag("PUNCH"))
+        {
+            currHp -= DAMAGE_HP;
+            Debug.Log($"Player HP = {currHp/initHp}");
+
+            if (currHp <= 0.0f)
+            {
+                PlayerDie();
+            }
+        }
+    }
+
+    private void PlayerDie()
+    {
+        Debug.Log("Player Die!!!");
     }
 }

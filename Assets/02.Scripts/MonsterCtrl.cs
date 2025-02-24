@@ -9,6 +9,8 @@ public class MonsterCtrl : MonoBehaviour
     private readonly int hashTrace = Animator.StringToHash("IsTrace");
     private readonly int hashAttack = Animator.StringToHash("IsAttack");
     private readonly int hashHit = Animator.StringToHash("Hit");
+    private readonly int hashPlayerDie = Animator.StringToHash("PlayerDie");
+    private readonly int hashSpeed = Animator.StringToHash("Speed");
 
     public const float TIMER_CHECK = 0.3f;
     public enum State
@@ -129,5 +131,21 @@ public class MonsterCtrl : MonoBehaviour
     {
         GameObject blood = Instantiate<GameObject>(bloodEffect, pos, rot, monsterTr);
         Destroy(blood, 1.0f);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.name);
+    }
+
+    private void OnPlayerDie()
+    {
+        // 몬스터의 상태를 체크하는 코루틴 정지
+        StopAllCoroutines();
+
+        // 추적 정지, 애니메이션 실행
+        agent.isStopped = true;
+        animator.SetFloat(hashSpeed, Random.Range(0.8f, 1.2f));
+        animator.SetTrigger(hashPlayerDie);
     }
 }

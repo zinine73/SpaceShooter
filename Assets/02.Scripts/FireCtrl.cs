@@ -16,6 +16,17 @@ public class FireCtrl : MonoBehaviour
     // AudioSource Component
     private new AudioSource audio;
     private MeshRenderer muzzleFlash;
+    private bool isPlayerDie;
+
+    void OnEnable()
+    {
+        PlayerCtrl.OnPlayerDie += this.OnPlayerDie;    
+    }
+
+    void OnDisable()
+    {
+        PlayerCtrl.OnPlayerDie -= this.OnPlayerDie;
+    }
 
     void Start()
     {
@@ -23,10 +34,18 @@ public class FireCtrl : MonoBehaviour
         muzzleFlash = firePos.GetComponentInChildren<MeshRenderer>();
         // 처음 시작할 때 비활성화
         muzzleFlash.enabled = false;
+        isPlayerDie = false;
+    }
+
+    public void OnPlayerDie()
+    {
+        isPlayerDie = true;
     }
 
     void Update()
     {
+        if (isPlayerDie) return;
+
         // 마우스 왼쪽 버튼을 클릭했을 때 Fire 함수 호출
         if (Input.GetMouseButtonDown(0))
         {

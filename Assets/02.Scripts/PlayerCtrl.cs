@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class PlayerCtrl : MonoBehaviour
 {
+    #region Private
     private Transform tr;
     private Animation anim;
     private readonly float initHp = 100.0f; // 초기 생명값
     private const float DAMAGE_HP = 10.0f;
+    #endregion
 
+    #region Public
     public float currHp; // 현재 생명값
     public float moveSpeed = 10.0f; // 이동속도 변수
     public float turnSpeed = 80.0f; // 회전속도 변수
+
+    public delegate void PlayerDieHandler(); // 델리게이트 선언
+    public static event PlayerDieHandler OnPlayerDie; // 이벤트 선언
+    #endregion
 
     IEnumerator Start()
     {
@@ -94,6 +101,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         Debug.Log("Player Die!!!");
 
+        /* SendMessage 방식 말고 event 방식을 사용하자
         // MONSTER 라는 태그를 가진 모든 오브젝트를 찾아옴
         GameObject[] monsters = GameObject.FindGameObjectsWithTag("MONSTER");
         // 모든 몬스터의 OnPlayerDie 함수를 순차적으로 호출
@@ -101,5 +109,14 @@ public class PlayerCtrl : MonoBehaviour
         {
             item.SendMessage("OnPlayerDie", SendMessageOptions.DontRequireReceiver);
         }
+        */
+
+        // todo: UI 에서 "Game Over"라고 보여주게 하자
+        // todo: ui직접 연결 말고, 이벤트 호출을 통해서 해보자
+
+        //GetComponent<FireCtrl>().OnPlayerDie();
+        
+        // 주인공 사망 이벤트 호출(발생)
+        OnPlayerDie();
     }
 }

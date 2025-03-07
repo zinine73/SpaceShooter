@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCtrl : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerCtrl : MonoBehaviour
     private Animation anim;
     private readonly float initHp = 100.0f; // 초기 생명값
     private const float DAMAGE_HP = 10.0f;
+    private Image hpBar; // HPBar에 연결할 변수
     #endregion
 
     #region Public
@@ -22,6 +24,19 @@ public class PlayerCtrl : MonoBehaviour
 
     IEnumerator Start()
     {
+        // HPBar 연결
+        /* ? 연산자
+        GameObject go = GameObject.FindGameObjectWithTag("HP_BAR");
+        if (go == null)
+        {
+            hpBar = null;
+        }
+        else
+        {
+            hpBar = go.GetComponent<Image>();
+        }
+        */
+        hpBar = GameObject.FindGameObjectWithTag("HP_BAR")?.GetComponent<Image>();
         currHp = initHp;
         tr = GetComponent<Transform>();
         anim = GetComponent<Animation>();
@@ -88,12 +103,22 @@ public class PlayerCtrl : MonoBehaviour
         if (currHp >= 0.0f && coll.CompareTag("PUNCH"))
         {
             currHp -= DAMAGE_HP;
+            DisplayHealth();
+
             Debug.Log($"Player HP = {currHp/initHp}");
 
             if (currHp <= 0.0f)
             {
                 PlayerDie();
             }
+        }
+    }
+
+    private void DisplayHealth()
+    {
+        if (hpBar != null)
+        {
+            hpBar.fillAmount = currHp / initHp;
         }
     }
 

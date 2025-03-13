@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     #region Public
-    //public Transform[] points;
+    public const int MAX_SCORE = 99999;
+    public const string KEY_SCORE = "TOT_SCORE";
     public List<Transform> points = new List<Transform>();
     // 몬스터를 미리 생성하고 저장할 리스트
     public List<GameObject> monsterPool = new List<GameObject>();
@@ -15,10 +17,14 @@ public class GameManager : MonoBehaviour
 
     public GameObject monster;
     public float createTime = 3.0f;
+    public TMP_Text scoreText;
+    public GameObject panelGameOver;
+
     #endregion
 
     #region Private
     private bool isGameOver;
+    private int totScore = 0;
     #endregion
 
     #region Property
@@ -29,6 +35,7 @@ public class GameManager : MonoBehaviour
             isGameOver = value;
             if (isGameOver)
             {
+                panelGameOver.SetActive(true);
                 CancelInvoke("CreateMonster");
             }
         }
@@ -54,6 +61,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        panelGameOver.SetActive(false);
+
         // 몬스터 오브젝트 풀 생성
         CreateMonsterPool();
 
@@ -74,6 +83,10 @@ public class GameManager : MonoBehaviour
 
         // 일정한 시간 간격으로 함수를 호출
         InvokeRepeating("CreateMonster", 2.0f, createTime);
+
+        // 스코어 출력
+        totScore = PlayerPrefs.GetInt(KEY_SCORE, 0);
+        DisplayScore(0);
     }
 
     private void CreateMonster()
@@ -114,5 +127,16 @@ public class GameManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void DisplayScore(int score)
+    {
+        totScore += score;
+        if (totScore > MAX_SCORE)
+        {
+            totScore = MAX_SCORE;
+        }
+        scoreText.text = $"<color=#00ff00>SCORE: </color><color=#ff0000>{totScore:#,##0}</color>";
+        PlayerPrefs.SetInt(KEY_SCORE, totScore);
     }
 }

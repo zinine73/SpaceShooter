@@ -20,6 +20,7 @@ public class MonsterCtrl : MonoBehaviour
 
     #region Public
     public const float TIMER_CHECK = 0.3f;
+    public const int SCORE_KILL = 50;
     public enum State
     {
         IDLE,
@@ -183,6 +184,7 @@ public class MonsterCtrl : MonoBehaviour
             if (hp <= 0)
             {
                 state = State.DIE;
+                GameManager.instance.DisplayScore(SCORE_KILL);
             }
         }
     }

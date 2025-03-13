@@ -136,9 +136,6 @@ public class PlayerCtrl : MonoBehaviour
         }
         */
 
-        // todo: UI 에서 "Game Over"라고 보여주게 하자
-        // todo: ui직접 연결 말고, 이벤트 호출을 통해서 해보자
-
         //GetComponent<FireCtrl>().OnPlayerDie();
         
         // 주인공 사망 이벤트 호출(발생)

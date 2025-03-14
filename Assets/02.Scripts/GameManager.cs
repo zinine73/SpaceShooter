@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -138,5 +139,24 @@ public class GameManager : MonoBehaviour
         }
         scoreText.text = $"<color=#00ff00>SCORE: </color><color=#ff0000>{totScore:#,##0}</color>";
         PlayerPrefs.SetInt(KEY_SCORE, totScore);
+    }
+
+    [MenuItem("zinine/SpaceShooter/Reset score")]
+    public static void ResetScore()
+    {
+        PlayerPrefs.SetInt(KEY_SCORE, 0);
+        Debug.Log("Successfully reset score.");
+    }
+
+    [MenuItem("zinine/Rogulike/MakeMap")]
+    public static void MakeMap()
+    {
+        Debug.Log("make map...");
+    }
+
+    [MenuItem("zinine/Rogulike/LoadMap")]
+    public static void LoadMap()
+    {
+        Debug.Log("load map...");
     }
 }

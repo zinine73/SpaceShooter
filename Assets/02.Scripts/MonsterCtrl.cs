@@ -68,6 +68,7 @@ public class MonsterCtrl : MonoBehaviour
         monsterTr = GetComponent<Transform>();
         playerTr = GameObject.FindWithTag("PLAYER").GetComponent<Transform>();
         agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
         animator = GetComponent<Animator>();
         bloodEffect = Resources.Load<GameObject>("BloodSprayEffect");
     }
@@ -214,5 +215,17 @@ public class MonsterCtrl : MonoBehaviour
         agent.isStopped = true;
         animator.SetFloat(hashSpeed, Random.Range(0.8f, 1.2f));
         animator.SetTrigger(hashPlayerDie);
+    }
+
+    private void Update()
+    {
+        if (agent.remainingDistance >= 2.0f)
+        {
+            Vector3 direction = agent.desiredVelocity;
+            Quaternion rot = Quaternion.LookRotation(direction);
+            monsterTr.rotation = Quaternion.Slerp(monsterTr.rotation,
+                                                    rot,
+                                                    Time.deltaTime * 10.0f);
+        }
     }
 }

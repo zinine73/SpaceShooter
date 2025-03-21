@@ -185,10 +185,11 @@ public class MonsterCtrl : MonoBehaviour
 
         // 몬스터의 HP 처리
         hp -= HIT_MONSTER_HP;
-        if (hp <= 0)
+        if ((hp <= 0) && (state != State.DIE))
         {
             state = State.DIE;
             GameManager.instance.DisplayScore(SCORE_KILL);
+            GameManager.instance.KillCount++;
         }
     }
 

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     #region Public
     public const int MAX_SCORE = 99999;
+    public const int MAX_KILL = 99;
     public const string KEY_SCORE = "TOT_SCORE";
     public List<Transform> points = new List<Transform>();
     // 몬스터를 미리 생성하고 저장할 리스트
@@ -20,15 +21,28 @@ public class GameManager : MonoBehaviour
     public float createTime = 3.0f;
     public TMP_Text scoreText;
     public GameObject panelGameOver;
-
+    public TMP_Text killText;
     #endregion
 
     #region Private
     private bool isGameOver;
     private int totScore = 0;
+    private int killCount = 0;
     #endregion
 
     #region Property
+    public int KillCount
+    {
+        get { return killCount; }
+        set { 
+            killCount = value; 
+            if (killCount > MAX_KILL)
+            {
+                killCount = MAX_KILL;
+            }
+            killText.text = $"{killCount:00}";
+        }
+    }
     public bool IsGameOver
     {
         get { return isGameOver; }

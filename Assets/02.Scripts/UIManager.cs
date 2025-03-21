@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         // UnityAction
-        action = () => OnButtonClick(startButton.name);
+        action = () => OnStartClick();
         startButton.onClick.AddListener(action);
 
         // 무명메서드
@@ -60,4 +61,10 @@ public class UIManager : MonoBehaviour
         Debug.Log($"Click Button : {rt.localScale.x}");
     }
     #endregion
+
+    public void OnStartClick()
+    {
+        SceneManager.LoadScene("Level_01");
+        SceneManager.LoadScene("Play", LoadSceneMode.Additive);
+    }
 }
